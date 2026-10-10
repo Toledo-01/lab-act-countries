@@ -8,6 +8,7 @@ import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import CountriesLayout from "./components/CountriesLayout";
 import RequireValidCountry from "./components/RequireValidCountry";
+import RequireLogin from "./components/RequireLogin";
 
 const App = () => {
   return (
@@ -20,6 +21,10 @@ const App = () => {
           <Route element={<RequireValidCountry />}>
             <Route path=":countryCode" element={<CountryDetailPage />} />
           </Route>
+        </Route>
+
+        <Route element={<RequireLogin />}>
+            <Route path="bucket-list" element={<BucketListPage />} />
         </Route>
 
         <Route path="bucket-list" element={<BucketListPage />} />
