@@ -1,15 +1,28 @@
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import COUNTRIES from "../data/countries";
+import { useEffect, useState } from "react";
 
 const CountriesPage = () => {
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
+  const navigate = useNavigate();
+
+  // Copy the code into local state FIRST, then clear the navigation state.
+  // Without the copy, clearing it would also erase the alert the user is
+  // meant to read — it would flash and vanish in the same breath.
+  const [notice] = useState(state?.missingCode ?? null);
+
+  useEffect(() => {
+    if (state?.missingCode) {
+      navigate(pathname, { replace: true, state: null });
+    }
+  }, [state, pathname, navigate]);
 
   return (
     <div className="max-w-4xl mx-auto">
-      {state?.missingCode && (
+      {notice && (
         <div className="alert alert-warning mb-4">
           <span>
-            We don&apos;t have a country with code &quot;{state.missingCode}&quot;.
+            We don&apos;t have a country with code &quot;{notice}&quot;.
           </span>
         </div>
       )}
